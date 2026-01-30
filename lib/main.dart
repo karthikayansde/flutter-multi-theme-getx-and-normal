@@ -3,6 +3,13 @@ import 'package:get/get.dart';
 
 void main() {
 
+  // consider if need
+    // theme: ThemeData(
+    //   brightness: Brightness.light,
+    //   fontFamily: 'M_PLUS_Rounded_1c',
+    //   scaffoldBackgroundColor: AppColors.white,
+    //   colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primary, brightness: Brightness.light, ),
+    // ),
   // normal
   runApp(const ThemeShowcaseApp());
   // getx
