@@ -1,291 +1,68 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_multi_theme_getx_and_normal/app_theme.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
-void main() {
+import 'app_color_schemes.dart';
 
-  // consider if need
-    // theme: ThemeData(
-    //   brightness: Brightness.light,
-    //   fontFamily: 'M_PLUS_Rounded_1c',
-    //   scaffoldBackgroundColor: AppColors.white,
-    //   colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primary, brightness: Brightness.light, ),
-    // ),
-  // normal
-  runApp(const ThemeShowcaseApp());
-  // getx
-  // runApp(const ThemeShowcaseGetxApp());
+Future<void> main() async {
+
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  await initLocalStorage();
+  AppTheme(isNative: false, colorSchemes: AppColorSchemes(TextTheme()).options, storage: _localStorage!);
+  runApp(const MyApp());
 }
 
-// GetX Controller
-class ThemeController extends GetxController {
-  var currentTheme = AppThemeType.light.obs;
-
-  void setTheme(AppThemeType themeType) {
-    currentTheme.value = themeType;
-    Get.changeTheme(AppTheme.getTheme(themeType));
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return AppTheme.instance.themeWrapper(
+            (theme, darkTheme, themeMode) {
+          return GetMaterialApp(
+            theme: theme,
+            darkTheme: darkTheme,
+            themeMode: themeMode,
+            title: "Multi-Theme",
+            home: HomeScreen(),
+          );
+        }
+    );
   }
 }
 
-class ThemeShowcaseGetxApp extends StatelessWidget {
-  const ThemeShowcaseGetxApp({super.key});
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final ThemeController themeController = Get.put(ThemeController());
-
-    return Obx(() => GetMaterialApp(
-      title: 'Theme Showcase getx',
-      debugShowCheckedModeBanner: false,
-      theme: AppTheme.getTheme(themeController.currentTheme.value),
-      home: const ThemeShowcaseScreen(),
-    ));
-  }
-}
-
-// normal ----------------
-// normal
-class ThemeShowcaseApp extends StatelessWidget {
-  const ThemeShowcaseApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return ValueListenableBuilder<AppThemeType>(
-      valueListenable: AppTheme.currentTheme,
-      builder: (context, themeType, child) {
-        return MaterialApp(
-          title: 'Theme Showcase',
-          debugShowCheckedModeBanner: false,
-          // Dynamically get the theme based on the current selection
-          theme: AppTheme.getTheme(themeType),
-          home: const ThemeShowcaseScreen(),
-        );
-      },
-    );
-  }
-}
-// normal end ----------------
-
-// =================================
-// CENTRALIZED THEME CONFIGURATION
-// =================================
-enum AppThemeType { light, dark, cosmic }
-
-class AppTheme {
-  static const String _fontFamily = 'Roboto';
-
-  // Light Theme
-  static ThemeData get lightTheme {
-    final ColorScheme colorScheme = ColorScheme.fromSeed(
-      seedColor: Colors.deepPurple,
-      brightness: Brightness.light,
-    );
-
-    return ThemeData(
-      useMaterial3: true,
-      colorScheme: colorScheme,
-      fontFamily: _fontFamily,
-    );
-  }
-
-  // Dark Theme
-  static ThemeData get darkTheme {
-    final ColorScheme colorScheme = ColorScheme.fromSeed(
-      seedColor: Colors.deepPurple,
-      brightness: Brightness.dark,
-    );
-
-    return ThemeData(
-      useMaterial3: true,
-      colorScheme: colorScheme,
-      fontFamily: _fontFamily,
-    );
-  }
-
-  // Cosmic Theme (Example third theme)
-  static ThemeData get cosmicTheme {
-    final ColorScheme colorScheme = ColorScheme.fromSeed(
-      seedColor: Colors.deepOrange,
-      brightness: Brightness.dark,
-    );
-
-    return ThemeData(
-      useMaterial3: true,
-      colorScheme: colorScheme,
-      fontFamily: _fontFamily,
-    );
-  }
-
-  // Helper to get ThemeData from Enum
-  static ThemeData getTheme(AppThemeType type) {
-    switch (type) {
-      case AppThemeType.light:
-        return lightTheme;
-      case AppThemeType.dark:
-        return darkTheme;
-      case AppThemeType.cosmic:
-        return cosmicTheme;
-    }
-  }
-
-  // normal
-
-  // controller area
-  static final ValueNotifier<AppThemeType> currentTheme = ValueNotifier(AppThemeType.light);
-
-  // Method to set a specific theme
-  static void setTheme(AppThemeType type) {
-    currentTheme.value = type;
-  }
-
-  // Method to cycle to the next theme (optional)
-  static void cycleTheme() {
-    final nextIndex = (currentTheme.value.index + 1) % AppThemeType.values.length;
-    currentTheme.value = AppThemeType.values[nextIndex];
-  }
-
-// normal ends
-
-
-// static ThemeData get lightTheme {
-//   final ColorScheme colorScheme = ColorScheme.fromSeed(
-//     seedColor: Colors.deepPurple,
-//
-//     brightness: Brightness.light,
-//
-//     // primary: Colors.red,
-//     // onPrimary: Colors.red,
-//     // primaryContainer: Colors.red,
-//     // onPrimaryContainer: Colors.red,
-//     //
-//     // primaryFixed: Colors.red,
-//     // onPrimaryFixed: Colors.red,
-//     // primaryFixedDim: Colors.red,
-//     // onPrimaryFixedVariant: Colors.red,
-//     //
-//     // secondary: Colors.red,
-//     // onSecondary: Colors.red,
-//     // secondaryContainer: Colors.red,
-//     // onSecondaryContainer: Colors.red,
-//     //
-//     // secondaryFixed: Colors.red,
-//     // onSecondaryFixed: Colors.red,
-//     // secondaryFixedDim: Colors.red,
-//     // onSecondaryFixedVariant: Colors.red,
-//     //
-//     // tertiary: Colors.red,
-//     // onTertiary: Colors.red,
-//     // tertiaryContainer: Colors.red,
-//     // onTertiaryContainer: Colors.red,
-//     //
-//     // tertiaryFixed: Colors.red,
-//     // onTertiaryFixed: Colors.red,
-//     // tertiaryFixedDim: Colors.red,
-//     // onTertiaryFixedVariant: Colors.red,
-//     //
-//     // error: Colors.red,
-//     // onError: Colors.red,
-//     // errorContainer: Colors.red,
-//     // onErrorContainer: Colors.red,
-//     //
-//     // surfaceDim: Colors.red,
-//     // surface: Colors.red,
-//     // surfaceBright: Colors.red,
-//     // surfaceContainerLowest: Colors.red,
-//     // surfaceContainerLow: Colors.red,
-//     // surfaceContainer: Colors.red,
-//     // surfaceContainerHigh: Colors.red,
-//     // surfaceContainerHighest: Colors.red,
-//     // onSurface: Colors.red,
-//     // onSurfaceVariant: Colors.red,
-//     // surfaceTint: Colors.red,
-//     //
-//     // outline: Colors.red,
-//     // shadow: Colors.red,
-//     // inverseSurface: Colors.red,
-//     // onInverseSurface: Colors.red,
-//     // inversePrimary: Colors.red,
-//   );
-//
-//   return ThemeData(
-//       useMaterial3: true,
-//       colorScheme: colorScheme,
-//       fontFamily: _fontFamily
-//   );
-// }
-
-}
-
-// =================================
-// THEME SHOWCASE SCREEN
-// =================================
-class ThemeShowcaseScreen extends StatelessWidget {
-  const ThemeShowcaseScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
-
     return Scaffold(
-      appBar: AppBar(
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('Theme Showcase', style: theme.textTheme.titleLarge),
-            // getx area
-            // Obx(() {
-            //   final controller = Get.find<ThemeController>();
-            //   String themeName = controller.currentTheme.value.name;
-            //   themeName = themeName[0].toUpperCase() + themeName.substring(1);
-            //   return Text(
-            //     'Material 3 Design System - $themeName',
-            //     style: theme.textTheme.bodySmall?.copyWith(
-            //       color: colorScheme.onSurface.withValues(alpha: 0.6),
-            //     ),
-            //   );
-            // }),
-            // getx area ends
-
-          ],
-        ),
-        actions: [
-          PopupMenuButton<AppThemeType>(
-            icon: const Icon(Icons.color_lens),
-            onSelected: (AppThemeType result) {
-              // normal
-
-              AppTheme.setTheme(result);
-              // normal ends
-              // Get.find<ThemeController>().setTheme(result);
-            },
-            itemBuilder: (BuildContext context) => <PopupMenuEntry<AppThemeType>>[
-              const PopupMenuItem(
-                value: AppThemeType.light,
-                child: Text('Light Mode'),
-              ),
-              const PopupMenuItem(
-                value: AppThemeType.dark,
-                child: Text('Dark Mode'),
-              ),
-              const PopupMenuItem(
-                value: AppThemeType.cosmic,
-                child: Text('Cosmic Mode'),
-              ),
-            ],
-          ),
-        ],
-      ),
+      appBar: AppBar(title: Text("data"),),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            AppTheme.instance.dropdownBuilder(
+                  (selectedKey, themeMap, changeTheme) {
+                return DropdownButton<String>(
+                  value: selectedKey,
+                  onChanged: (key) {
+                    changeTheme(key!);
+                    AppTheme.instance.updateTheme(key);
+                  },
+                  items: themeMap.entries
+                      .map((e) => DropdownMenuItem(value: e.key, child: Text(e.value.name)))
+                      .toList(),
+                );
+              },
+            ),
             _ColorSchemeSection(),
-            const SizedBox(height: 32),
+            SizedBox(height: 32),
             _ButtonsSection(),
-            const SizedBox(height: 32),
+            SizedBox(height: 32),
             _InputsSection(),
-            const SizedBox(height: 32),
+            SizedBox(height: 32),
           ],
         ),
       ),
@@ -297,6 +74,7 @@ class ThemeShowcaseScreen extends StatelessWidget {
 // COLOR SCHEME SECTION
 // =================================
 class _ColorSchemeSection extends StatelessWidget {
+  const _ColorSchemeSection();
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -358,6 +136,7 @@ class _ColorCard extends StatelessWidget {
 // BUTTONS SECTION
 // =================================
 class _ButtonsSection extends StatelessWidget {
+  const _ButtonsSection();
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -397,6 +176,7 @@ class _ButtonsSection extends StatelessWidget {
 // INPUTS SECTION
 // =================================
 class _InputsSection extends StatelessWidget {
+  const _InputsSection();
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -443,4 +223,45 @@ class _InputsSection extends StatelessWidget {
       ],
     );
   }
+}
+
+abstract class ILocalStorage {
+  Future<void> init();
+  Future<void> write<T>(String key, T value);
+  T? read<T>(String key);
+  Future<void> delete(String key);
+  Future<void> deleteAll();
+  Future<bool> containsKey(String key);
+}
+
+class LocalStorageService implements ILocalStorage {
+  late final GetStorage _box;
+  @override
+  Future<void> init() async {
+    await GetStorage.init();
+    _box = GetStorage();
+  }
+
+  @override
+  Future<void> write<T>(String key, T value) async => await _box.write(key, value);
+
+  @override
+  T? read<T>(String key) => _box.read<T>(key);
+
+  @override
+  Future<void> delete(String key) async => await _box.remove(key);
+
+  @override
+  Future<void> deleteAll() async => await _box.erase();
+
+  @override
+  Future<bool> containsKey(String key) async => _box.hasData(key);
+
+}
+
+ILocalStorage? _localStorage;
+Future<void> initLocalStorage() async {
+  if (_localStorage != null) return;
+  _localStorage = LocalStorageService();
+  await _localStorage!.init();
 }
