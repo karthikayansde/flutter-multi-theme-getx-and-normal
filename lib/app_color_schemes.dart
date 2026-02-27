@@ -138,3 +138,271 @@ class AppColorSchemes {
 //       fontFamily: _fontFamily
 //   );
 // }
+
+
+/// theme visual
+// class HomeScreen extends StatelessWidget {
+//   const HomeScreen({super.key});
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(title: Text("data"),),
+//       body: SingleChildScrollView(
+//         padding: const EdgeInsets.all(16),
+//         child: Column(
+//           crossAxisAlignment: CrossAxisAlignment.start,
+//           children: [
+//             AppTheme.instance.dropdownBuilder(
+//                   (selectedKey, themeMap, changeTheme) {
+//                 return DropdownButton<String>(
+//                   value: selectedKey,
+//                   onChanged: (key) {
+//                     changeTheme(key!);
+//                     AppTheme.instance.updateTheme(key);
+//                   },
+//                   items: themeMap.entries
+//                       .map((e) => DropdownMenuItem(value: e.key, child: Text(e.value.name)))
+//                       .toList(),
+//                 );
+//               },
+//             ),
+//             _ColorSchemeSection(),
+//             SizedBox(height: 32),
+//             _ButtonsSection(),
+//             SizedBox(height: 32),
+//             _InputsSection(),
+//             SizedBox(height: 32),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }
+//
+// // =================================
+// // COLOR SCHEME SECTION
+// // =================================
+// class _ColorSchemeSection extends StatelessWidget {
+//   const _ColorSchemeSection();
+//   @override
+//   Widget build(BuildContext context) {
+//     final theme = Theme.of(context);
+//     final colorScheme = theme.colorScheme;
+//
+//     return Column(
+//       crossAxisAlignment: CrossAxisAlignment.start,
+//       children: [
+//         Text('Color Scheme', style: theme.textTheme.headlineMedium),
+//         const SizedBox(height: 16),
+//         Wrap(
+//           spacing: 12,
+//           runSpacing: 12,
+//           children: [
+//             _ColorCard('primary', colorScheme.primary, colorScheme.onPrimary),
+//             _ColorCard('secondary', colorScheme.secondary, colorScheme.onSecondary),
+//             _ColorCard('tertiary', colorScheme.tertiary, colorScheme.onTertiary),
+//             _ColorCard('surface', colorScheme.surface, colorScheme.onSurface),
+//             _ColorCard('background', colorScheme.surface, colorScheme.onSurface),
+//             _ColorCard('error', colorScheme.error, colorScheme.onError),
+//           ],
+//         ),
+//       ],
+//     );
+//   }
+// }
+//
+// class _ColorCard extends StatelessWidget {
+//   final String name;
+//   final Color color;
+//   final Color onColor;
+//
+//   const _ColorCard(this.name, this.color, this.onColor);
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       width: 100,
+//       height: 100,
+//       decoration: BoxDecoration(
+//         color: color,
+//         borderRadius: BorderRadius.circular(12),
+//       ),
+//       child: Center(
+//         child: Text(
+//           name,
+//           style: Theme.of(context).textTheme.labelMedium?.copyWith(
+//             color: onColor,
+//             fontWeight: FontWeight.bold,
+//           ),
+//           textAlign: TextAlign.center,
+//         ),
+//       ),
+//     );
+//   }
+// }
+//
+// // =================================
+// // BUTTONS SECTION
+// // =================================
+// class _ButtonsSection extends StatelessWidget {
+//   const _ButtonsSection();
+//   @override
+//   Widget build(BuildContext context) {
+//     final theme = Theme.of(context);
+//
+//     return Column(
+//       crossAxisAlignment: CrossAxisAlignment.start,
+//       children: [
+//         Text('Buttons', style: theme.textTheme.headlineMedium),
+//         const SizedBox(height: 16),
+//         Card(
+//           child: Padding(
+//             padding: const EdgeInsets.all(16),
+//             child: Wrap(
+//               spacing: 12,
+//               runSpacing: 12,
+//               children: [
+//                 ElevatedButton(onPressed: () {}, child: const Text('Elevated')),
+//                 FilledButton(onPressed: () {}, child: const Text('Filled')),
+//                 OutlinedButton(onPressed: () {}, child: const Text('Outlined')),
+//                 TextButton(onPressed: () {}, child: const Text('Text')),
+//                 ElevatedButton(onPressed: null, child: const Text('Disabled')),
+//                 FilledButton.icon(
+//                   onPressed: () {},
+//                   icon: const Icon(Icons.add),
+//                   label: const Text('With Icon'),
+//                 ),
+//               ],
+//             ),
+//           ),
+//         ),
+//       ],
+//     );
+//   }
+// }
+//
+// // =================================
+// // INPUTS SECTION
+// // =================================
+// class _InputsSection extends StatelessWidget {
+//   const _InputsSection();
+//   @override
+//   Widget build(BuildContext context) {
+//     final theme = Theme.of(context);
+//
+//     return Column(
+//       crossAxisAlignment: CrossAxisAlignment.start,
+//       children: [
+//         Text('Text Inputs', style: theme.textTheme.headlineMedium),
+//         const SizedBox(height: 16),
+//         Card(
+//           child: Padding(
+//             padding: const EdgeInsets.all(16),
+//             child: Column(
+//               children: [
+//                 TextField(
+//                   decoration: const InputDecoration(
+//                     labelText: 'TextField',
+//                     hintText: 'Enter some text',
+//                     prefixIcon: Icon(Icons.person),
+//                   ),
+//                 ),
+//                 const SizedBox(height: 16),
+//                 TextFormField(
+//                   decoration: const InputDecoration(
+//                     labelText: 'TextFormField with Error',
+//                     hintText: 'This field has an error',
+//                     prefixIcon: Icon(Icons.email),
+//                     errorText: 'Invalid email address',
+//                   ),
+//                 ),
+//                 const SizedBox(height: 16),
+//                 const TextField(
+//                   enabled: false,
+//                   decoration: InputDecoration(
+//                     labelText: 'Disabled TextField',
+//                     hintText: 'This field is disabled',
+//                     prefixIcon: Icon(Icons.lock),
+//                   ),
+//                 ),
+//               ],
+//             ),
+//           ),
+//         ),
+//       ],
+//     );
+//   }
+// }
+
+///check current all colors
+//
+// final scheme = Theme.of(context).colorScheme;
+//
+// // All main properties (2026 complete list)
+// final colorMap = {
+//   'primary': scheme.primary,
+//   'onPrimary': scheme.onPrimary,
+//   'primaryContainer': scheme.primaryContainer,
+//   'onPrimaryContainer': scheme.onPrimaryContainer,
+//   'secondary': scheme.secondary,
+//   'onSecondary': scheme.onSecondary,
+//   'secondaryContainer': scheme.secondaryContainer,
+//   'onSecondaryContainer': scheme.onSecondaryContainer,
+//   'tertiary': scheme.tertiary,
+//   'onTertiary': scheme.onTertiary,
+//   'tertiaryContainer': scheme.tertiaryContainer,
+//   'onTertiaryContainer': scheme.onTertiaryContainer,
+//   'error': scheme.error,
+//   'onError': scheme.onError,
+//   'errorContainer': scheme.errorContainer,
+//   'onErrorContainer': scheme.onErrorContainer,
+//   'surface': scheme.surface,
+//   'onSurface': scheme.onSurface,
+//   'surfaceDim': scheme.surfaceDim,
+//   'surfaceBright': scheme.surfaceBright,
+//   'surfaceContainerLowest': scheme.surfaceContainerLowest,
+//   'surfaceContainerLow': scheme.surfaceContainerLow,
+//   'surfaceContainer': scheme.surfaceContainer,
+//   'surfaceContainerHigh': scheme.surfaceContainerHigh,
+//   'surfaceContainerHighest': scheme.surfaceContainerHighest,
+//   'onSurfaceVariant': scheme.onSurfaceVariant,
+//   'outline': scheme.outline,
+//   'outlineVariant': scheme.outlineVariant,
+//   'shadow': scheme.shadow,
+//   'scrim': scheme.scrim,
+//   'inverseSurface': scheme.inverseSurface,
+//   'onInverseSurface': scheme.onInverseSurface, // sometimes called inverseOnSurface
+//   'inversePrimary': scheme.inversePrimary,
+//   'surfaceTint': scheme.surfaceTint,
+//   // Deprecated ones (still exist but avoid using):
+//   // 'background': scheme.background,
+//   // 'onBackground': scheme.onBackground,
+//   // 'surfaceVariant': scheme.surfaceVariant,
+// };
+
+// Widget asdf(){
+//   return
+//     Expanded(
+//       child: ListView(
+//         padding: const EdgeInsets.all(16),
+//         children: colorMap.entries.map((entry) {
+//           final color = entry.value;
+//           final textColor = color.computeLuminance() > 0.5 ? Colors.black : Colors.white;
+//           return Card(
+//             color: color,
+//             child: ListTile(
+//               title: Text(
+//                 entry.key,
+//                 style: TextStyle(color: textColor, fontWeight: FontWeight.bold),
+//               ),
+//               subtitle: Text(
+//                 '#${color.value.toRadixString(16).padLeft(8, '0').toUpperCase()}',
+//                 style: TextStyle(color: textColor.withOpacity(0.8)),
+//               ),
+//             ),
+//           );
+//         }).toList(),
+//       ),
+//     );
+// }
